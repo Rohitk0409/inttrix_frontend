@@ -374,6 +374,9 @@ function HomePage() {
                   href="#"
                   className="inline-flex items-center gap-2 mt-6 text-[#FF6247] font-semibold group-hover:gap-3 transition-all"
                   whileHover={{ x: 5 }}
+                  onClick={() => {
+                    navigate("/services");
+                  }}
                 >
                   Learn More
                   <ChevronRight className="w-4 h-4" />

@@ -33,8 +33,9 @@ function AboutPage() {
               <span className="inline-block px-4 py-2 bg-[#FF6247]/10 text-[#FF6247] font-medium rounded-full text-sm tracking-wide">
                 Since 2025
               </span>
-              <h1 className="mt-5 text-4xl md:text-5xl lg:text-5xl font-extrabold text-[#1F3A63] leading-tight">
-                About Vinttrix Edge
+              <h1 className="mt-5 text-4xl md:text-5xl lg:text-5xl font-extrabold  leading-tight">
+                About <span className="text-blue-950">Vinttrix</span>
+                <span className="text-orange-500"> Edge</span>
               </h1>
             </motion.div>
 
@@ -121,9 +122,9 @@ function AboutPage() {
           >
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
               <img
-                src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                src="\vinttrix-edge-4.png"
                 alt="Team working on digital projects"
-                className="w-full h-auto object-cover aspect-[4/5] lg:aspect-[3/4] brightness-[0.97]"
+                className="w-full h-auto object-cover  brightness-[0.97]"
               />
               {/* Overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />

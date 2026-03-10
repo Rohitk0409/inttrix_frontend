@@ -110,9 +110,10 @@ function ContactPage() {
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-[#1F3A63] to-[#FF6247] bg-clip-text text-transparent mb-4"
+            className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent mb-4"
           >
-            Let's Connect
+            <span className="text-blue-950"> Let's</span>{" "}
+            <span className="text-orange-500"> Connect</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -142,7 +143,7 @@ function ContactPage() {
               <div className="flex items-center space-x-4 mb-6">
                 <motion.div
                   animate={floatingAnimation}
-                  className="w-16 h-16 bg-gradient-to-r from-[#1F3A63] to-[#FF6247] rounded-2xl flex items-center justify-center"
+                  className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center"
                 >
                   <span className="text-2xl font-bold text-white">VG</span>
                 </motion.div>
@@ -213,7 +214,7 @@ function ContactPage() {
             </motion.div>
 
             {/* Business Hours */}
-            <motion.div
+            {/* <motion.div
               variants={itemVariants}
               className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-white/20"
             >
@@ -228,7 +229,7 @@ function ContactPage() {
                 <p>Saturday: 10:00 AM - 4:00 PM</p>
                 <p>Sunday: Closed</p>
               </div>
-            </motion.div>
+            </motion.div> */}
 
             {/* Motivational Message */}
             <motion.p
@@ -271,7 +272,7 @@ function ContactPage() {
             </motion.div>
 
             {/* Contact Form */}
-            <motion.form
+            {/* <motion.form
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -357,7 +358,7 @@ function ContactPage() {
                   )}
                 </motion.button>
 
-                {/* Status Message */}
+               
                 {submitStatus && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -384,7 +385,7 @@ function ContactPage() {
                   </motion.div>
                 )}
               </div>
-            </motion.form>
+            </motion.form> */}
           </motion.div>
         </div>
       </div>

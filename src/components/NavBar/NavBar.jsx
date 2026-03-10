@@ -1,8 +1,9 @@
 import { Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 function NavBar() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const navItem = [
@@ -70,8 +71,13 @@ function NavBar() {
               </NavLink>
             ))}
 
-            <button className="bg-[#FF6247] text-white py-2 rounded-lg mt-2">
-              Get Quote
+            <button
+              className="bg-[#FF6247] text-white py-2 rounded-lg mt-2"
+              onClick={() => {
+                navigate("/contact");
+              }}
+            >
+              Contact
             </button>
           </div>
         </div>
