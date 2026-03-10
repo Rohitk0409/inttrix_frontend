@@ -13,6 +13,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 60 },
@@ -50,6 +51,7 @@ const scaleIn = {
 };
 
 function HomePage() {
+  const navigate = useNavigate();
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -168,7 +170,7 @@ function HomePage() {
       <motion.section
         ref={heroRef}
         style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-        className="relative bg-gradient-to-br from-[#1F3A63]/5 via-white to-[#FF6247]/5 py-20 md:py-28 lg:py-20 overflow-hidden"
+        className="relative bg-gradient-to-br from-[#1F3A63]/5 via-white to-[#FF6247]/5 py-8 md:py-10 lg:py-12 overflow-hidden"
       >
         <div className="w-full mx-auto px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -182,17 +184,18 @@ function HomePage() {
                 variants={fadeInUp}
                 className="inline-block px-4 py-2 bg-gradient-to-r from-[#FF6247]/10 to-[#1F3A63]/10 rounded-full mb-6"
               >
-                <span className="text-sm font-semibold text-[#1F3A63]">
+                {/* <span className="text-sm font-semibold text-[#1F3A63]">
                   🚀 Welcome to the Future
-                </span>
+                </span> */}
               </motion.div>
 
               <motion.h1
                 variants={fadeInUp}
-                className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
+                className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight"
               >
-                <span className="bg-gradient-to-r from-[#1F3A63] to-[#FF6247] bg-clip-text text-transparent">
-                  Vinttrix Edge
+                <span className=" bg-clip-text text-transparent">
+                  <span className="text-blue-950">Vinttrix</span>{" "}
+                  <span className="text-orange-500">Edge</span>
                 </span>
               </motion.h1>
 
@@ -236,7 +239,8 @@ function HomePage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="group relative border-2 border-[#1F3A63] text-[#1F3A63] hover:text-white px-10 py-5 rounded-2xl font-semibold text-lg transition-all duration-300 overflow-hidden"
+                  className="group relative border-2 border-[#1F3A63] text-[#1F3A63] hover:text-white hover:bg-blue-950 px-10 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 overflow-hidden"
+                  onClick={() => navigate("/services")}
                 >
                   <span className="relative z-10">Our Services</span>
                   <motion.div
@@ -287,7 +291,7 @@ function HomePage() {
                 className="relative z-10"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                  src="/Vinttrix-Edge-3.png"
                   alt="Digital solutions illustration"
                   className="rounded-3xl shadow-2xl w-full object-cover aspect-[4/3] lg:aspect-auto border-8 border-white/50 backdrop-blur-sm"
                 />

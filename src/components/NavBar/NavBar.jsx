@@ -1,6 +1,6 @@
-import { Menu, X } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function NavBar() {
   const [open, setOpen] = useState(false);
@@ -10,13 +10,13 @@ function NavBar() {
     { label: "About", route: "/about" },
     { label: "Services", route: "/services" },
     { label: "Projects", route: "/projects" },
-    { label: "Pricing", route: "/pricing" },
-    { label: "Contact", route: "/contact" },
+    // { label: "Pricing", route: "/pricing" },
+    // { label: "Contact", route: "/contact" },
   ];
 
   return (
     <header className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+      <div className="w-full mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="text-xl font-bold flex items-center gap-1">
@@ -39,9 +39,13 @@ function NavBar() {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <button className="bg-[#FF6247] text-white px-5 py-2 rounded-lg hover:opacity-90 transition">
-              Get Quote
-            </button>
+            <Link
+              to={"/contact"}
+              className="bg-[#FF6247] text-white px-5 py-2 rounded-lg hover:opacity-90 transition flex justify-between gap-2 items-center cursor-pointer"
+            >
+              <Phone size={20} />{" "}
+              <span className="font-semibold"> Contact</span>
+            </Link>
           </div>
 
           {/* Mobile Button */}
