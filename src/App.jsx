@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import WhatsAppButton from "./components/common/WhatsAppButton";
+import FloatingButtons from "./components/common/FloatingButtons";
 import Footer from "./components/Footer/Footer";
 import NavBar from "./components/NavBar/NavBar";
 import AppRoute from "./routes/AppRoute";
@@ -15,7 +15,7 @@ function App() {
 
       <Footer />
       {/* Global Floating Button */}
-      <WhatsAppButton />
+      <FloatingButtons />
     </BrowserRouter>
   );
 }
