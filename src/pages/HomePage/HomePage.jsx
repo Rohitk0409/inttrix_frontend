@@ -1,8 +1,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
+  ArrowRight,
   ChevronRight,
   Code,
   Palette,
+  Play,
   Rocket,
   Shield,
   ShoppingCart,
@@ -15,41 +17,111 @@ import {
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 60 },
-  visible: {
+/* ─── Design Tokens ─── */
+const C = {
+  navy: "#1F3A63",
+  coral: "#FF6247",
+  navyLight: "#2a4d82",
+  coralLight: "#ff7f6a",
+  coralDim: "rgba(255,98,71,0.12)",
+  navyDim: "rgba(31,58,99,0.08)",
+};
+
+/* ─── Reusable Variants ─── */
+const fadeUp = {
+  hidden: { opacity: 0, y: 48 },
+  visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.6, -0.05, 0.01, 0.99],
-    },
-  },
+    transition: { duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] },
+  }),
 };
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3,
-    },
-  },
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.13, delayChildren: 0.1 } },
 };
 
-const scaleIn = {
-  hidden: { scale: 0.8, opacity: 0 },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
+/* ─── Sub-components ─── */
+function GlowOrb({
+  top,
+  left,
+  right,
+  bottom,
+  size = 320,
+  color = C.coral,
+  opacity = 0.18,
+  blur = 90,
+  animate = true,
+}) {
+  const style = {
+    position: "absolute",
+    width: size,
+    height: size,
+    borderRadius: "50%",
+    background: color,
+    opacity,
+    filter: `blur(${blur}px)`,
+    top,
+    left,
+    right,
+    bottom,
+    pointerEvents: "none",
+  };
+  if (!animate) return <div style={style} />;
+  return (
+    <motion.div
+      style={style}
+      animate={{
+        scale: [1, 1.18, 1],
+        opacity: [opacity, opacity * 0.7, opacity],
+      }}
+      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+    />
+  );
+}
 
+function SectionLabel({ children }) {
+  return (
+    <motion.div
+      variants={fadeUp}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 8,
+        background: C.coralDim,
+        border: `1px solid rgba(255,98,71,0.25)`,
+        borderRadius: 999,
+        padding: "6px 18px",
+        marginBottom: 20,
+      }}
+    >
+      <span
+        style={{
+          width: 7,
+          height: 7,
+          borderRadius: "50%",
+          background: C.coral,
+          display: "inline-block",
+        }}
+      />
+      <span
+        style={{
+          fontSize: 13,
+          fontWeight: 700,
+          color: C.coral,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          fontFamily: "inherit",
+        }}
+      >
+        {children}
+      </span>
+    </motion.div>
+  );
+}
+
+/* ─── Main Component ─── */
 function HomePage() {
   const navigate = useNavigate();
   const heroRef = useRef(null);
@@ -57,158 +129,185 @@ function HomePage() {
     target: heroRef,
     offset: ["start start", "end start"],
   });
-
-  const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.4]);
 
   const services = [
     {
       icon: Code,
-      title: "Web Development & Software",
-      description:
-        "Custom websites and applications built with cutting-edge technology for optimal performance.",
-      color: "from-blue-600 to-cyan-500",
+      title: "Web Development",
+      desc: "Custom websites and apps built with cutting-edge tech.",
+      accent: "#3B82F6",
     },
     {
       icon: Palette,
       title: "Creative Design",
-      description:
-        "Stunning visuals that capture your brand's essence and leave lasting impressions.",
-      color: "from-purple-600 to-pink-500",
+      desc: "Visuals that capture your brand and leave impressions.",
+      accent: "#A855F7",
     },
     {
       icon: TrendingUp,
       title: "Digital Advertising",
-      description:
-        "Data-driven campaigns that maximize ROI and target the right audience effectively.",
-      color: "from-green-600 to-emerald-500",
+      desc: "Data-driven campaigns that maximise ROI.",
+      accent: "#10B981",
     },
     {
       icon: Users,
-      title: "Social Media Management",
-      description:
-        "Engaging content and strategies to build a loyal community around your brand.",
-      color: "from-orange-500 to-red-500",
+      title: "Social Media",
+      desc: "Strategies to build a loyal community around your brand.",
+      accent: "#F59E0B",
     },
     {
       icon: Video,
-      title: "Product Advertisement & Reels",
-      description:
-        "Creative video content that tells your story and drives engagement.",
-      color: "from-pink-500 to-rose-500",
+      title: "Video & Reels",
+      desc: "Creative video content that drives engagement.",
+      accent: "#EC4899",
     },
     {
       icon: ShoppingCart,
-      title: "E-commerce Management",
-      description:
-        "End-to-end online store management for maximum sales and customer satisfaction.",
-      color: "from-indigo-600 to-blue-500",
+      title: "E-commerce",
+      desc: "End-to-end store management for maximum sales.",
+      accent: "#6366F1",
     },
   ];
 
-  const approachSteps = [
+  const steps = [
     {
-      number: "01",
-      title: "Discovery",
-      description:
-        "Understanding your vision, goals, and requirements in depth",
+      n: "01",
+      label: "Discovery",
+      desc: "Understanding your vision and goals in depth",
       icon: Star,
     },
     {
-      number: "02",
-      title: "Strategy",
-      description: "Crafting the perfect digital solution roadmap",
+      n: "02",
+      label: "Strategy",
+      desc: "Crafting the perfect digital solution roadmap",
       icon: Rocket,
     },
     {
-      number: "03",
-      title: "Execution",
-      description: "Bringing ideas to life with precision and creativity",
+      n: "03",
+      label: "Execution",
+      desc: "Bringing ideas to life with precision & creativity",
       icon: Zap,
     },
     {
-      number: "04",
-      title: "Growth",
-      description: "Continuous support and optimization for success",
+      n: "04",
+      label: "Growth",
+      desc: "Continuous optimisation for lasting success",
       icon: Shield,
     },
   ];
 
   const stats = [
-    { value: "50+", label: "Projects Completed", icon: Rocket },
-    { value: "30+", label: "Happy Clients", icon: Users },
-    { value: "98%", label: "Client Satisfaction", icon: Star },
-    { value: "24/7", label: "Support Available", icon: Zap },
+    { value: "50+", label: "Projects Done" },
+    { value: "30+", label: "Happy Clients" },
+    { value: "98%", label: "Satisfaction" },
+    { value: "24/7", label: "Support" },
   ];
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-b from-white via-gray-50 to-white overflow-hidden">
-      {/* Floating Background Elements */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -100, 0],
-            rotate: [0, 45, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-[#FF6247]/20 to-[#1F3A63]/20 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            x: [0, -100, 0],
-            y: [0, 100, 0],
-            rotate: [0, -45, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-[#1F3A63]/20 to-[#FF6247]/20 rounded-full blur-3xl"
-        />
-      </div>
-
-      {/* HERO SECTION */}
+    <div
+      style={{
+        width: "100%",
+        minHeight: "100vh",
+        background: "#f8f9fc",
+        fontFamily: "'Clash Display', 'DM Sans', 'Segoe UI', sans-serif",
+        overflowX: "hidden",
+      }}
+    >
+      {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
-        style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
-        className="relative bg-gradient-to-br from-[#1F3A63]/5 via-white to-[#FF6247]/5 py-8 md:py-10 lg:py-12 overflow-hidden"
+        style={{
+          y: heroY,
+          opacity: heroOpacity,
+          position: "relative",
+          overflow: "hidden",
+        }}
       >
-        <div className="w-full mx-auto px-6 lg:px-8 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              animate="visible"
-              className="relative"
-            >
-              <motion.div
-                variants={fadeInUp}
-                className="inline-block px-4 py-2 bg-gradient-to-r from-[#FF6247]/10 to-[#1F3A63]/10 rounded-full mb-6"
-              >
-                {/* <span className="text-sm font-semibold text-[#1F3A63]">
-                  🚀 Welcome to the Future
-                </span> */}
+        {/* Hero background */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: `linear-gradient(135deg, ${C.navy} 0%, #162d52 55%, #1a1a2e 100%)`,
+            zIndex: 0,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0)",
+            backgroundSize: "40px 40px",
+            zIndex: 1,
+          }}
+        />
+        <GlowOrb
+          top={-60}
+          right={-60}
+          size={440}
+          color={C.coral}
+          opacity={0.22}
+        />
+        <GlowOrb
+          bottom={-80}
+          left={-80}
+          size={380}
+          color="#3B82F6"
+          opacity={0.15}
+        />
+
+        <div
+          style={{
+            // maxWidth: 1200,
+            margin: "0 auto",
+            padding: "80px 24px 100px",
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gap: 64,
+              alignItems: "center",
+            }}
+          >
+            {/* Left */}
+            <motion.div variants={stagger} initial="hidden" animate="visible">
+              <motion.div variants={fadeUp} custom={0}>
+                <SectionLabel>Welcome to Vinttrix Edge</SectionLabel>
               </motion.div>
 
               <motion.h1
-                variants={fadeInUp}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight"
+                variants={fadeUp}
+                custom={1}
+                style={{
+                  fontSize: "clamp(2.4rem, 5vw, 3.8rem)",
+                  fontWeight: 800,
+                  lineHeight: 1.1,
+                  color: "#fff",
+                  margin: "0 0 20px",
+                }}
               >
-                <span className=" bg-clip-text text-transparent">
-                  <span className="text-blue-950">Vinttrix</span>{" "}
-                  <span className="text-orange-500">Edge</span>
-                </span>
+                Code. <span style={{ color: C.coral }}>Create.</span>
+                <br />
+                Grow. 🚀
               </motion.h1>
 
               <motion.p
-                variants={fadeInUp}
-                className="mt-4 text-2xl md:text-3xl font-medium text-gray-700"
-              >
-                Code. Create. Grow. 🚀
-              </motion.p>
-
-              <motion.p
-                variants={fadeInUp}
-                className="mt-6 text-lg text-gray-600 max-w-xl leading-relaxed"
+                variants={fadeUp}
+                custom={2}
+                style={{
+                  fontSize: "1.1rem",
+                  color: "rgba(255,255,255,0.7)",
+                  lineHeight: 1.8,
+                  maxWidth: 480,
+                  marginBottom: 40,
+                }}
               >
                 Transform your digital presence with cutting-edge solutions that
                 drive real business growth. We blend creativity with technology
@@ -216,271 +315,692 @@ function HomePage() {
               </motion.p>
 
               <motion.div
-                variants={fadeInUp}
-                className="mt-10 flex flex-col sm:flex-row gap-5"
+                variants={fadeUp}
+                custom={3}
+                style={{
+                  display: "flex",
+                  gap: 16,
+                  flexWrap: "wrap",
+                  marginBottom: 52,
+                }}
               >
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{
+                    scale: 1.04,
+                    boxShadow: `0 12px 40px ${C.coral}55`,
+                  }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => navigate("/contact")}
-                  className="group relative bg-gradient-to-r from-[#FF6247] to-[#ff7f6a] text-white px-10 py-5 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                  style={{
+                    background: `linear-gradient(135deg, ${C.coral}, ${C.coralLight})`,
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: 14,
+                    padding: "15px 32px",
+                    fontSize: "1rem",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    boxShadow: `0 4px 20px ${C.coral}44`,
+                  }}
                 >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    Get Started
-                    <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-[#e54e38] to-[#ff6247]"
-                    initial={{ x: "100%" }}
-                    whileHover={{ x: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
+                  Get Started <ArrowRight size={18} />
                 </motion.button>
-
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="group relative border-2 border-[#1F3A63] text-[#1F3A63] hover:text-white hover:bg-blue-950 px-10 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 overflow-hidden"
+                  whileHover={{
+                    scale: 1.04,
+                    background: "rgba(255,255,255,0.12)",
+                  }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => navigate("/services")}
+                  style={{
+                    background: "rgba(255,255,255,0.07)",
+                    color: "#fff",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    borderRadius: 14,
+                    padding: "15px 32px",
+                    fontSize: "1rem",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    backdropFilter: "blur(8px)",
+                  }}
                 >
-                  <span className="relative z-10">Our Services</span>
-                  <motion.div
-                    className="absolute inset-0 bg-[#1F3A63]"
-                    initial={{ y: "100%" }}
-                    whileHover={{ y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
+                  <Play size={16} /> Our Services
                 </motion.button>
               </motion.div>
 
-              {/* Stats */}
+              {/* Stats row */}
               <motion.div
-                variants={fadeInUp}
-                className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6"
+                variants={stagger}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, 1fr)",
+                  gap: 4,
+                }}
               >
-                {stats.map((stat, index) => (
+                {stats.map((s, i) => (
                   <motion.div
-                    key={index}
-                    whileHover={{ y: -5 }}
-                    className="text-center"
+                    key={i}
+                    variants={fadeUp}
+                    custom={i * 0.1}
+                    style={{
+                      background: "rgba(255,255,255,0.05)",
+                      borderRadius: 14,
+                      padding: "16px 8px",
+                      textAlign: "center",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                    }}
                   >
-                    <div className="text-2xl font-bold text-[#1F3A63]">
-                      {stat.value}
+                    <div
+                      style={{
+                        fontSize: "1.6rem",
+                        fontWeight: 800,
+                        color: C.coral,
+                      }}
+                    >
+                      {s.value}
                     </div>
-                    <div className="text-sm text-gray-600">{stat.label}</div>
+                    <div
+                      style={{
+                        fontSize: "0.72rem",
+                        color: "rgba(255,255,255,0.55)",
+                        marginTop: 2,
+                        fontWeight: 500,
+                      }}
+                    >
+                      {s.label}
+                    </div>
                   </motion.div>
                 ))}
               </motion.div>
             </motion.div>
 
+            {/* Right – Hero image card */}
             <motion.div
-              variants={scaleIn}
-              initial="hidden"
-              animate="visible"
-              className="relative"
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                duration: 0.9,
+                delay: 0.3,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              style={{ position: "relative" }}
             >
               <motion.div
-                animate={{
-                  y: [0, -20, 0],
-                  rotate: [0, 2, -2, 0],
-                }}
+                animate={{ y: [0, -14, 0] }}
                 transition={{
-                  duration: 6,
+                  duration: 5,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="relative z-10"
+                style={{ position: "relative", zIndex: 2 }}
               >
-                <img
-                  src="/Vinttrix-Edge-3.png"
-                  alt="Digital solutions illustration"
-                  className="rounded-3xl shadow-2xl w-full object-cover aspect-[4/3] lg:aspect-auto border-8 border-white/50 backdrop-blur-sm"
-                />
+                <div
+                  style={{
+                    position: "relative",
+                    borderRadius: 28,
+                    overflow: "hidden",
+                    boxShadow: `0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)`,
+                  }}
+                >
+                  <img
+                    src="/Vinttrix-Edge-3.png"
+                    alt="Vinttrix Edge"
+                    style={{
+                      width: "100%",
+                      display: "block",
+                      aspectRatio: "4/3",
+                      objectFit: "cover",
+                    }}
+                  />
+                  {/* Overlay shimmer */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "linear-gradient(180deg, transparent 60%, rgba(31,58,99,0.6) 100%)",
+                    }}
+                  />
+                </div>
               </motion.div>
 
-              {/* Decorative elements */}
+              {/* Floating badge */}
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-[#FF6247] to-[#1F3A63] rounded-full opacity-20 blur-xl"
-              />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-tr from-[#1F3A63] to-[#FF6247] rounded-full opacity-20 blur-xl"
-              />
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.8, type: "spring" }}
+                style={{
+                  position: "absolute",
+                  bottom: -20,
+                  left: -20,
+                  background: "#fff",
+                  borderRadius: 16,
+                  padding: "12px 20px",
+                  boxShadow: "0 16px 40px rgba(0,0,0,0.2)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  zIndex: 4,
+                }}
+              >
+                <div
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 10,
+                    background: `linear-gradient(135deg, ${C.navy}, ${C.coral})`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Star size={18} color="#fff" fill="#fff" />
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontSize: "0.85rem",
+                      fontWeight: 800,
+                      color: C.navy,
+                    }}
+                  >
+                    98% Satisfaction
+                  </div>
+                  <div style={{ fontSize: "0.7rem", color: "#888" }}>
+                    Verified by clients
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
       </motion.section>
 
-      {/* SERVICES SECTION */}
-      <section className="py-24 md:py-32 relative">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1F3A63] mb-4">
-              Our Core Services
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive digital solutions tailored to elevate your brand and
-              drive measurable results
-            </p>
-          </motion.div>
+      {/* ── SERVICES ── */}
+      <section
+        style={{
+          padding: "100px 24px",
+          background: "#fff",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "70%",
+            height: 1,
+            background: `linear-gradient(90deg, transparent, ${C.coral}44, transparent)`,
+          }}
+        />
+        <GlowOrb
+          top={-100}
+          right={100}
+          size={350}
+          color={C.navy}
+          opacity={0.04}
+          animate={false}
+        />
 
+        <div
+          style={{
+            // maxWidth: 1200,
+            margin: "0 auto",
+          }}
+        >
           <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={staggerContainer}
+            variants={stagger}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
+            style={{ textAlign: "center", marginBottom: 64 }}
           >
-            {services.map((service, index) => (
+            <SectionLabel>What We Do</SectionLabel>
+            <motion.h2
+              variants={fadeUp}
+              style={{
+                fontSize: "clamp(2rem, 4vw, 3rem)",
+                fontWeight: 800,
+                color: C.navy,
+                margin: "0 0 16px",
+              }}
+            >
+              Our Core Services
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              style={{
+                fontSize: "1.1rem",
+                color: "#64748b",
+                maxWidth: 520,
+                margin: "0 auto",
+                lineHeight: 1.7,
+              }}
+            >
+              Comprehensive digital solutions tailored to elevate your brand and
+              drive measurable results.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: 24,
+            }}
+          >
+            {services.map((s, i) => (
               <motion.div
-                key={index}
-                variants={fadeInUp}
+                key={i}
+                variants={fadeUp}
+                custom={i}
                 whileHover={{
-                  y: -10,
-                  transition: { duration: 0.3 },
+                  y: -8,
+                  boxShadow: `0 24px 60px rgba(31,58,99,0.12)`,
                 }}
-                className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                style={{
+                  background: "#fafafa",
+                  borderRadius: 24,
+                  padding: "36px 32px",
+                  border: "1px solid #f0f0f0",
+                  cursor: "pointer",
+                  transition: "box-shadow 0.3s",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
               >
-                {/* Gradient Background on Hover */}
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    width: 120,
+                    height: 120,
+                    borderRadius: "0 24px 0 100%",
+                    background: `${s.accent}0d`,
+                  }}
                 />
-
-                {/* Icon */}
-                <motion.div
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                  className="w-16 h-16 bg-gradient-to-br from-[#1F3A63] to-[#FF6247] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: 14,
+                    background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 22,
+                  }}
                 >
-                  <service.icon className="w-8 h-8 text-white" />
-                </motion.div>
-
-                <h3 className="text-2xl font-semibold text-[#1F3A63] mb-4 group-hover:text-[#FF6247] transition-colors">
-                  {service.title}
+                  <s.icon size={24} color="#fff" />
+                </div>
+                <h3
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: 700,
+                    color: C.navy,
+                    marginBottom: 10,
+                  }}
+                >
+                  {s.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {service.description}
-                </p>
-
-                {/* Learn More Link */}
-                <motion.button
-                  onClick={() => navigate("/services")}
-                  className="inline-flex items-center gap-2 mt-6 text-[#FF6247] font-semibold  cursor-pointer"
+                <p
+                  style={{
+                    fontSize: "0.95rem",
+                    color: "#64748b",
+                    lineHeight: 1.7,
+                    marginBottom: 20,
+                  }}
                 >
-                  Learn More
-                  <ChevronRight className="w-4 h-4" />
-                </motion.button>
+                  {s.desc}
+                </p>
+                <button
+                  onClick={() => navigate("/services")}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: C.coral,
+                    fontWeight: 700,
+                    fontSize: "0.9rem",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: 0,
+                  }}
+                >
+                  Learn More <ChevronRight size={15} />
+                </button>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* APPROACH SECTION */}
-      <section className="py-24 md:py-32 bg-gradient-to-br from-[#1F3A63]/5 to-[#FF6247]/5 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      {/* ── APPROACH ── */}
+      <section
+        style={{
+          padding: "100px 24px",
+          background: `linear-gradient(135deg, #f0f4ff 0%, #fff5f3 100%)`,
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <GlowOrb
+          top="50%"
+          left="50%"
+          size={600}
+          color={C.coral}
+          opacity={0.05}
+          blur={120}
+          animate={false}
+        />
+
+        <div
+          style={{
+            // maxWidth: 1200,
+            margin: "0 auto",
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            style={{ textAlign: "center", marginBottom: 64 }}
+          >
+            <SectionLabel>How We Work</SectionLabel>
+            <motion.h2
+              variants={fadeUp}
+              style={{
+                fontSize: "clamp(2rem, 4vw, 3rem)",
+                fontWeight: 800,
+                color: C.navy,
+                margin: "0 0 16px",
+              }}
+            >
+              Our Approach
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              style={{
+                fontSize: "1.1rem",
+                color: "#64748b",
+                maxWidth: 480,
+                margin: "0 auto",
+              }}
+            >
+              A systematic methodology that ensures exceptional results every
+              time.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: 24,
+            }}
+          >
+            {steps.map((step, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                custom={i}
+                whileHover={{ y: -10 }}
+                style={{
+                  background: "#fff",
+                  borderRadius: 24,
+                  padding: "36px 28px",
+                  boxShadow: "0 4px 24px rgba(31,58,99,0.07)",
+                  position: "relative",
+                  overflow: "hidden",
+                  border: "1px solid rgba(255,98,71,0.08)",
+                }}
+              >
+                {/* Step number watermark */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: -10,
+                    right: 12,
+                    fontSize: "5rem",
+                    fontWeight: 900,
+                    color: `${C.coral}0f`,
+                    lineHeight: 1,
+                    pointerEvents: "none",
+                  }}
+                >
+                  {step.n}
+                </div>
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: 14,
+                    background: `linear-gradient(135deg, ${C.coral}, ${C.coralLight})`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 20,
+                  }}
+                >
+                  <step.icon size={24} color="#fff" />
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.8rem",
+                    fontWeight: 800,
+                    color: C.coral,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    marginBottom: 8,
+                  }}
+                >
+                  {step.n}
+                </div>
+                <h3
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: 700,
+                    color: C.navy,
+                    marginBottom: 10,
+                  }}
+                >
+                  {step.label}
+                </h3>
+                <p
+                  style={{
+                    fontSize: "0.9rem",
+                    color: "#64748b",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {step.desc}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── CTA BANNER ── */}
+      <section style={{ padding: "80px 24px" }}>
+        <div style={{ maxWidth: 960, margin: "0 auto" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            transition={{ duration: 0.7 }}
+            style={{
+              background: `linear-gradient(135deg, ${C.navy} 0%, #162d52 50%, #0f1e3a 100%)`,
+              borderRadius: 32,
+              padding: "clamp(40px, 8vw, 72px)",
+              textAlign: "center",
+              position: "relative",
+              overflow: "hidden",
+              boxShadow: `0 40px 80px ${C.navy}44`,
+            }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1F3A63] mb-4">
-              Our Approach
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              A systematic methodology that ensures exceptional results every
-              time
-            </p>
-          </motion.div>
+            <GlowOrb
+              top={-60}
+              right={-60}
+              size={300}
+              color={C.coral}
+              opacity={0.3}
+            />
+            <GlowOrb
+              bottom={-60}
+              left={-60}
+              size={280}
+              color="#3B82F6"
+              opacity={0.2}
+            />
 
-          <div className="grid md:grid-cols-4 gap-8">
-            {approachSteps.map((step, index) => (
+            <div style={{ position: "relative", zIndex: 2 }}>
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.15, duration: 0.6 }}
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-                className="relative"
+                transition={{ delay: 0.2, type: "spring" }}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "rgba(255,98,71,0.2)",
+                  border: "1px solid rgba(255,98,71,0.3)",
+                  borderRadius: 999,
+                  padding: "6px 18px",
+                  marginBottom: 24,
+                }}
               >
-                {/* Connector Line */}
-                {index < approachSteps.length - 1 && (
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.15 + 0.3, duration: 0.6 }}
-                    className="hidden md:block absolute top-16 left-[60%] w-[80%] h-[2px] bg-gradient-to-r from-[#FF6247] to-[#1F3A63]"
-                  />
-                )}
-
-                <div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="w-16 h-16 bg-gradient-to-br from-[#1F3A63] to-[#FF6247] rounded-2xl flex items-center justify-center mb-6"
-                  >
-                    <step.icon className="w-8 h-8 text-white" />
-                  </motion.div>
-
-                  <div className="text-4xl font-bold text-[#FF6247] mb-2">
-                    {step.number}
-                  </div>
-                  <h3 className="text-2xl font-semibold text-[#1F3A63] mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-gray-600">{step.description}</p>
-                </div>
+                <Rocket size={14} color={C.coral} />
+                <span
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: C.coral,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Ready to Launch?
+                </span>
               </motion.div>
-            ))}
-          </div>
-        </div>
 
-        {/* Decorative Background */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-[#FF6247]/5 to-[#1F3A63]/5 rounded-full blur-3xl"
-        />
+              <h2
+                style={{
+                  fontSize: "clamp(1.8rem, 4vw, 3rem)",
+                  fontWeight: 800,
+                  color: "#fff",
+                  margin: "0 0 16px",
+                  lineHeight: 1.2,
+                }}
+              >
+                Transform Your{" "}
+                <span style={{ color: C.coral }}>Digital Presence</span>
+              </h2>
+              <p
+                style={{
+                  fontSize: "1.1rem",
+                  color: "rgba(255,255,255,0.65)",
+                  marginBottom: 40,
+                  maxWidth: 480,
+                  margin: "0 auto 40px",
+                }}
+              >
+                Let's collaborate and create something extraordinary together.
+                Your vision, our expertise.
+              </p>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: 16,
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                <motion.button
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: `0 16px 40px ${C.coral}55`,
+                  }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate("/contact")}
+                  style={{
+                    background: `linear-gradient(135deg, ${C.coral}, ${C.coralLight})`,
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: 14,
+                    padding: "16px 36px",
+                    fontSize: "1rem",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    boxShadow: `0 4px 20px ${C.coral}44`,
+                  }}
+                >
+                  Start Your Project <Rocket size={17} />
+                </motion.button>
+                <motion.button
+                  whileHover={{
+                    scale: 1.05,
+                    background: "rgba(255,255,255,0.12)",
+                  }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate("/services")}
+                  style={{
+                    background: "rgba(255,255,255,0.07)",
+                    color: "#fff",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    borderRadius: 14,
+                    padding: "16px 36px",
+                    fontSize: "1rem",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    backdropFilter: "blur(8px)",
+                  }}
+                >
+                  View Services
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
-      {/* CTA SECTION */}
-      {/* <section className="py-20 md:py-28">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-r from-[#1F3A63] to-[#FF6247] rounded-3xl p-12 md:p-16 shadow-2xl"
-          >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-              Ready to Transform Your Digital Presence?
-            </h2>
-            <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
-              Let's collaborate and create something extraordinary together.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-[#1F3A63] px-12 py-5 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all duration-300 group"
-            >
-              <span className="flex items-center justify-center gap-2">
-                Start Your Project
-                <Rocket className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </span>
-            </motion.button>
-          </motion.div>
-        </div>
-      </section> */}
+      {/* Responsive overrides via inline style tag */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; }
+
+        @media (max-width: 640px) {
+          section { padding-left: 16px !important; padding-right: 16px !important; }
+        }
+      `}</style>
     </div>
   );
 }

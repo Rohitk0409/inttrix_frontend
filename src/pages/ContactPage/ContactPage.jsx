@@ -1,396 +1,330 @@
 import { motion } from "framer-motion";
-import {
-  AlertCircle,
-  CheckCircle,
-  Clock,
-  Linkedin,
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-} from "lucide-react";
-import { useState } from "react";
+import { Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
-function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+const stagger = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+  },
+};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+const contacts = [
+  {
+    icon: Phone,
+    label: "Call Us",
+    text: "+91 6398615710",
+    href: "tel:+916398615710",
+    bg: "bg-green-50",
+    iconColor: "text-green-600",
+    border: "border-green-100",
+  },
+  {
+    icon: Mail,
+    label: "Email Us",
+    text: "vinttrixedge@gmail.com",
+    href: "mailto:vinttrixedge@gmail.com",
+    bg: "bg-blue-50",
+    iconColor: "text-blue-600",
+    border: "border-blue-100",
+  },
+  {
+    icon: Linkedin,
+    label: "LinkedIn",
+    text: "Connect on LinkedIn",
+    href: "https://www.linkedin.com/in/vinay-gautam-b0765424a/",
+    bg: "bg-sky-50",
+    iconColor: "text-sky-700",
+    border: "border-sky-100",
+    external: true,
+  },
+  {
+    icon: MapPin,
+    label: "Location",
+    text: "Available for remote collaboration",
+    bg: "bg-purple-50",
+    iconColor: "text-purple-600",
+    border: "border-purple-100",
+  },
+];
 
-    // Simulate form submission
-    setTimeout(() => {
-      setSubmitStatus("success");
-      setIsSubmitting(false);
-      setFormData({ name: "", email: "", message: "" });
-
-      // Reset status after 3 seconds
-      setTimeout(() => setSubmitStatus(null), 3000);
-    }, 1500);
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12,
-      },
-    },
-  };
-
-  const floatingAnimation = {
-    y: [0, -10, 0],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  };
-
+export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="relative min-h-screen bg-stone-50 overflow-hidden">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+        .font-sora   { font-family: 'Sora', sans-serif; }
+        .font-outfit { font-family: 'Outfit', sans-serif; }
+
+        .text-coral-grad {
+          background: linear-gradient(135deg, #FF6247 30%, #c73a24 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .contact-card {
+          transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),
+                      box-shadow 0.35s cubic-bezier(0.22,1,0.36,1);
+        }
+        .contact-card:hover {
+          transform: translateY(-6px) scale(1.015);
+          box-shadow: 0 24px 48px rgba(31,58,99,0.11),
+                      0 6px 16px rgba(255,98,71,0.07);
+        }
+
+        .info-row {
+          transition: transform 0.25s ease;
+        }
+        .info-row:hover { transform: translateX(8px); }
+
+        .fade-hr {
+          background: linear-gradient(90deg, rgba(255,98,71,0.4), transparent);
+        }
+
+        .badge-pill {
+          background: rgba(255,98,71,0.09);
+          color: #FF6247;
+          border: 1px solid rgba(255,98,71,0.22);
+        }
+
+        .img-card { overflow: hidden; }
+        .img-card img { transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .img-card:hover img { transform: scale(1.07); }
+
+        .avatar-float {
+          animation: floatY 3s ease-in-out infinite;
+        }
+        @keyframes floatY {
+          0%,100% { transform: translateY(0); }
+          50%      { transform: translateY(-8px); }
+        }
+
+        .quote-bar {
+          border-left: 4px solid #FF6247;
+        }
+
+        .btn-coral {
+          background: linear-gradient(135deg, #FF6247, #e04e35);
+          box-shadow: 0 8px 24px rgba(255,98,71,0.35);
+          transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+        }
+        .btn-coral:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 16px 40px rgba(255,98,71,0.45);
+        }
+      `}</style>
+
+      {/* ── Ambient blobs ── */}
+      <div className="pointer-events-none fixed inset-0 z-0">
         <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{ duration: 20, repeat: Infinity }}
-          className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF6247] rounded-full filter blur-3xl"
+          animate={{ scale: [1, 1.25, 1], opacity: [0.08, 0.14, 0.08] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-40 -right-40 w-96 h-96 rounded-full blur-3xl"
+          style={{ background: "#FF6247" }}
         />
         <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            rotate: [0, -90, 0],
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{ duration: 18, repeat: Infinity }}
-          className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#1F3A63] rounded-full filter blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.06, 0.12, 0.06] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full blur-3xl"
+          style={{ background: "#1F3A63" }}
         />
       </div>
 
-      <div className="max-w-7xl mx-auto py-16 md:py-24 px-6 lg:px-8 relative z-10">
+      {/* ── Main ── */}
+      <div className="font-outfit relative z-10  mx-auto px-5 sm:px-8 lg:px-14 py-16 md:py-24 lg:py-28">
+        {/* ── HEADER ── */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, type: "spring" }}
-          className="text-center mb-16"
+          initial="hidden"
+          animate="visible"
+          variants={stagger}
+          className="text-center mb-16 md:mb-20"
         >
+          <motion.div variants={fadeUp} className="flex justify-center mb-5">
+            <span className="badge-pill inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-widest">
+              <span>✦</span> Get In Touch <span>✦</span>
+            </span>
+          </motion.div>
+
           <motion.h1
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent mb-4"
+            variants={fadeUp}
+            className="font-sora font-extrabold tracking-tight leading-none
+                       text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+            style={{ color: "#1F3A63" }}
           >
-            <span className="text-blue-950"> Let's</span>{" "}
-            <span className="text-orange-500"> Connect</span>
+            Let's <span className="text-coral-grad">Connect</span>
           </motion.h1>
+
+          <motion.div variants={fadeUp} className="flex justify-center mt-5">
+            <div
+              className="h-1 w-16 rounded-full"
+              style={{ background: "linear-gradient(90deg,#FF6247,#1F3A63)" }}
+            />
+          </motion.div>
+
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-xl text-gray-600 max-w-2xl mx-auto"
+            variants={fadeUp}
+            className="mt-6 font-light text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
           >
             Have a project in mind? We'd love to hear about it. Drop us a
             message and let's create something extraordinary together.
           </motion.p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Contact Information */}
+        {/* ── TWO-COLUMN LAYOUT ── */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          {/* ── LEFT: Founder + Quote ── */}
           <motion.div
-            variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-8"
+            variants={stagger}
+            className="space-y-6"
           >
-            {/* Founder Card */}
+            {/* Founder card */}
             <motion.div
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              className="bg-white/80 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-white/20"
+              variants={fadeUp}
+              className="contact-card bg-white rounded-3xl p-7 md:p-9 border shadow-sm"
+              style={{ borderColor: "rgba(31,58,99,0.09)" }}
             >
-              <div className="flex items-center space-x-4 mb-6">
-                <motion.div
-                  animate={floatingAnimation}
-                  className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center"
+              {/* Avatar + name */}
+              <div className="flex items-center gap-5 mb-7">
+                <div
+                  className="avatar-float w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg"
+                  style={{
+                    background: "linear-gradient(135deg,#FF6247,#e04e35)",
+                  }}
                 >
-                  <span className="text-2xl font-bold text-white">VG</span>
-                </motion.div>
+                  <span className="font-sora font-bold text-white text-xl">
+                    VG
+                  </span>
+                </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-[#1F3A63]">
+                  <h2
+                    className="font-sora font-bold text-2xl md:text-3xl"
+                    style={{ color: "#1F3A63" }}
+                  >
                     Vinay Gautam
                   </h2>
-                  <p className="text-lg text-gray-600">
+                  <p className="text-gray-400 text-sm font-light mt-0.5">
                     Founder — Vinttrix Edge
                   </p>
                 </div>
               </div>
 
+              {/* Divider */}
+              <div className="fade-hr h-px mb-6" />
+
+              {/* Contact rows */}
               <div className="space-y-4">
-                {[
-                  {
-                    icon: Phone,
-                    text: "+91 6398615710",
-                    href: "tel:+916398615710",
-                    color: "text-green-600",
-                  },
-                  {
-                    icon: Mail,
-                    text: "vinttrixedge@gmail.com",
-                    href: "mailto:vinttrixedge@gmail.com",
-                    color: "text-blue-600",
-                  },
-                  {
-                    icon: Linkedin,
-                    text: "Connect on LinkedIn",
-                    href: "https://www.linkedin.com/in/vinay-gautam-b0765424a/",
-                    color: "text-[#0077B5]",
-                  },
-                  {
-                    icon: MapPin,
-                    text: "Available for remote collaboration",
-                    color: "text-purple-600",
-                  },
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    variants={itemVariants}
-                    whileHover={{ x: 10 }}
-                    className="flex items-center space-x-3"
+                {contacts.map((c, i) => (
+                  <div
+                    key={i}
+                    className={`info-row flex items-center gap-4 p-3 rounded-2xl border ${c.bg} ${c.border}`}
                   >
-                    <div className={`p-2 rounded-lg bg-gray-100 ${item.color}`}>
-                      <item.icon className="w-5 h-5" />
+                    <div
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center bg-white shadow-sm ${c.iconColor} flex-shrink-0`}
+                    >
+                      <c.icon className="w-5 h-5" />
                     </div>
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        target={item.icon === Linkedin ? "_blank" : undefined}
-                        rel={
-                          item.icon === Linkedin
-                            ? "noopener noreferrer"
-                            : undefined
-                        }
-                        className="text-gray-700 hover:text-[#FF6247] transition-colors duration-300"
-                      >
-                        {item.text}
-                      </a>
-                    ) : (
-                      <span className="text-gray-700">{item.text}</span>
-                    )}
-                  </motion.div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
+                        {c.label}
+                      </p>
+                      {c.href ? (
+                        <a
+                          href={c.href}
+                          target={c.external ? "_blank" : undefined}
+                          rel={c.external ? "noopener noreferrer" : undefined}
+                          className="text-sm md:text-base font-medium truncate block transition-colors duration-200"
+                          style={{ color: "#1F3A63" }}
+                          onMouseEnter={(e) =>
+                            (e.target.style.color = "#FF6247")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.target.style.color = "#1F3A63")
+                          }
+                        >
+                          {c.text}
+                        </a>
+                      ) : (
+                        <p
+                          className="text-sm md:text-base font-medium"
+                          style={{ color: "#1F3A63" }}
+                        >
+                          {c.text}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 ))}
               </div>
             </motion.div>
 
-            {/* Business Hours */}
-            {/* <motion.div
-              variants={itemVariants}
-              className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-white/20"
+            {/* Quote */}
+            <motion.div
+              variants={fadeUp}
+              className="quote-bar bg-white/70 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-stone-100"
             >
-              <div className="flex items-center space-x-3 mb-4">
-                <Clock className="w-6 h-6 text-[#FF6247]" />
-                <h3 className="text-xl font-semibold text-[#1F3A63]">
-                  Business Hours
-                </h3>
-              </div>
-              <div className="space-y-2 text-gray-600">
-                <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                <p>Saturday: 10:00 AM - 4:00 PM</p>
-                <p>Sunday: Closed</p>
-              </div>
-            </motion.div> */}
-
-            {/* Motivational Message */}
-            <motion.p
-              variants={itemVariants}
-              className="text-gray-600 italic bg-white/50 backdrop-blur-sm p-4 rounded-xl border-l-4 border-[#FF6247]"
-            >
-              "We're excited to hear about your project. Let's create something
-              amazing together!"
-            </motion.p>
+              <p className="text-gray-500 italic text-sm md:text-base leading-relaxed font-light">
+                "We're excited to hear about your project. Let's create
+                something amazing together!"
+              </p>
+            </motion.div>
           </motion.div>
 
-          {/* Contact Form & Image */}
+          {/* ── RIGHT: Image + stat cards ── */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 48 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="space-y-8"
+            transition={{
+              duration: 0.75,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.25,
+            }}
+            className="space-y-6"
           >
-            {/* Image Card */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="relative rounded-2xl overflow-hidden shadow-2xl group"
-            >
+            {/* Hero image */}
+            <div className="img-card relative rounded-3xl shadow-xl border border-stone-100">
               <img
                 src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-                alt="Modern office collaboration"
-                className="w-full h-[300px] object-cover transition-transform duration-700 group-hover:scale-110"
+                alt="Team collaboration"
+                className="w-full h-64 sm:h-80 object-cover rounded-3xl"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1F3A63]/90 via-transparent to-transparent flex items-end">
-                <div className="p-6 text-white">
-                  <motion.p
-                    animate={{ y: [0, -5, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-lg font-medium"
-                  >
-                    Ready to start your project?
-                  </motion.p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Contact Form */}
-            {/* <motion.form
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              onSubmit={handleSubmit}
-              className="bg-white/80 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-white/20"
-            >
-              <h3 className="text-2xl font-bold text-[#1F3A63] mb-6">
-                Send us a Message
-              </h3>
-
-              <div className="space-y-5">
-                <motion.div variants={itemVariants}>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#FF6247] focus:border-transparent outline-none transition-all duration-300 bg-white/50"
-                    placeholder="John Doe"
-                  />
-                </motion.div>
-
-                <motion.div variants={itemVariants}>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#FF6247] focus:border-transparent outline-none transition-all duration-300 bg-white/50"
-                    placeholder="john@example.com"
-                  />
-                </motion.div>
-
-                <motion.div variants={itemVariants}>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Your Message
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows="4"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#FF6247] focus:border-transparent outline-none transition-all duration-300 bg-white/50 resize-none"
-                    placeholder="Tell us about your project..."
-                  />
-                </motion.div>
-
-                <motion.button
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-[#1F3A63] to-[#FF6247] text-white py-4 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2 hover:shadow-xl transition-all duration-300 disabled:opacity-70"
+              {/* Overlay */}
+              <div
+                className="absolute inset-0 rounded-3xl flex items-end p-6"
+                style={{
+                  background:
+                    "linear-gradient(to top, rgba(31,58,99,0.88) 0%, transparent 55%)",
+                }}
+              >
+                <motion.p
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="font-sora font-semibold text-white text-lg"
                 >
-                  {isSubmitting ? (
-                    <>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{
-                          duration: 1,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                      />
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Send Message</span>
-                      <Send className="w-5 h-5" />
-                    </>
-                  )}
-                </motion.button>
-
-               
-                {submitStatus && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`flex items-center space-x-2 p-3 rounded-lg ${
-                      submitStatus === "success"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                    }`}
-                  >
-                    {submitStatus === "success" ? (
-                      <>
-                        <CheckCircle className="w-5 h-5" />
-                        <span>
-                          Message sent successfully! We'll get back to you soon.
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <AlertCircle className="w-5 h-5" />
-                        <span>Something went wrong. Please try again.</span>
-                      </>
-                    )}
-                  </motion.div>
-                )}
+                  Ready to start your project? 🚀
+                </motion.p>
               </div>
-            </motion.form> */}
+            </div>
+
+        
           </motion.div>
         </div>
       </div>
     </div>
   );
 }
-
-export default ContactPage;
