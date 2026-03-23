@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const FloatingButtons = ({
-  phoneNumber = "916398615710",
+  phoneNumber = "+916398615710",
   message = "Hello, I want to know more about your services",
 }) => {
   const [isVisible, setIsVisible] = useState(false);
