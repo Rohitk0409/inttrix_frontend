@@ -1,7 +1,8 @@
 import { BrowserRouter } from "react-router-dom";
+import WhatsAppButton from "./components/common/WhatsAppButton";
+import Footer from "./components/Footer/Footer";
 import NavBar from "./components/NavBar/NavBar";
 import AppRoute from "./routes/AppRoute";
-import WhatsAppButton from "./components/common/WhatsAppButton";
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
 
       {/* All routes */}
       <AppRoute />
+
+      <Footer />
       {/* Global Floating Button */}
       <WhatsAppButton />
     </BrowserRouter>
