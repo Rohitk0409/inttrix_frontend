@@ -222,6 +222,7 @@ function HomePage() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate("/contact")}
                   className="group relative bg-gradient-to-r from-[#FF6247] to-[#ff7f6a] text-white px-10 py-5 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
@@ -370,17 +371,13 @@ function HomePage() {
                 </p>
 
                 {/* Learn More Link */}
-                <motion.a
-                  href="#"
-                  className="inline-flex items-center gap-2 mt-6 text-[#FF6247] font-semibold group-hover:gap-3 transition-all"
-                  whileHover={{ x: 5 }}
-                  onClick={() => {
-                    navigate("/services");
-                  }}
+                <motion.button
+                  onClick={() => navigate("/services")}
+                  className="inline-flex items-center gap-2 mt-6 text-[#FF6247] font-semibold  cursor-pointer"
                 >
                   Learn More
                   <ChevronRight className="w-4 h-4" />
-                </motion.a>
+                </motion.button>
               </motion.div>
             ))}
           </motion.div>

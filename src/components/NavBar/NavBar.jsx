@@ -1,16 +1,18 @@
+import { motion } from "framer-motion";
 import { Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 function NavBar() {
   const navigate = useNavigate();
+  const [nabTab, setNavTab] = useState("Home");
   const [open, setOpen] = useState(false);
 
   const navItem = [
     { label: "Home", route: "/" },
     { label: "About", route: "/about" },
     { label: "Services", route: "/services" },
-    { label: "Projects", route: "/projects" },
+    // { label: "Projects", route: "/projects" },
     // { label: "Pricing", route: "/pricing" },
     // { label: "Contact", route: "/contact" },
   ];
@@ -31,9 +33,35 @@ function NavBar() {
               <NavLink
                 key={item.label}
                 to={item.route}
-                className="hover:text-[#1F3A63] transition"
+                className="relative px-1 py-2"
               >
-                {item.label}
+                {({ isActive }) => (
+                  <>
+                    {/* Text */}
+                    <span
+                      className={`transition-colors duration-300 ${
+                        isActive
+                          ? "text-orange-500"
+                          : "text-gray-700 hover:text-[#1F3A63]"
+                      }`}
+                    >
+                      {item.label}
+                    </span>
+
+                    {/* Animated Underline */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="navbar-underline"
+                        className="absolute left-0 bottom-0 w-full h-[2px] bg-orange-500 rounded"
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                  </>
+                )}
               </NavLink>
             ))}
           </nav>
