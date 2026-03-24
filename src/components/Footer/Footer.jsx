@@ -24,15 +24,15 @@ const socialLinks = [
       </svg>
     ),
   },
-  {
-    name: "Facebook",
-    href: "#",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width={18} height={18}>
-        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-      </svg>
-    ),
-  },
+  // {
+  //   name: "Facebook",
+  //   href: "#",
+  //   icon: (
+  //     <svg viewBox="0 0 24 24" fill="currentColor" width={18} height={18}>
+  //       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+  //     </svg>
+  //   ),
+  // },
   {
     name: "LinkedIn",
     href: "#",
@@ -53,19 +53,19 @@ const socialLinks = [
       </svg>
     ),
   },
-  {
-    name: "YouTube",
-    href: "#",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width={18} height={18}>
-        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
-        <polygon
-          points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"
-          fill="white"
-        />
-      </svg>
-    ),
-  },
+  // {
+  //   name: "YouTube",
+  //   href: "#",
+  //   icon: (
+  //     <svg viewBox="0 0 24 24" fill="currentColor" width={18} height={18}>
+  //       <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
+  //       <polygon
+  //         points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"
+  //         fill="white"
+  //       />
+  //     </svg>
+  //   ),
+  // },
   {
     name: "WhatsApp",
     href: "#",
@@ -86,6 +86,7 @@ const footerLinks = {
     "Video Production",
     "Digital Advertising",
     "E-commerce Solutions",
+    "Automation & CRM Solutions",
   ],
   Company: ["About Us", "Our Work", "Pricing", "Contact Us"],
   Support: ["WhatsApp Us", "Email Support", "Book a Call", "FAQ"],
@@ -328,7 +329,7 @@ function Footer() {
                 <div className="vx-email-icon">
                   <EmailIcon />
                 </div>
-                hello@vinttrixedge.com
+                vinttrixedge@gmail.com
               </a>
 
               {/* Social row */}
@@ -343,30 +344,6 @@ function Footer() {
                     {s.icon}
                   </a>
                 ))}
-              </div>
-
-              {/* Newsletter */}
-              <div style={{ marginTop: 4 }}>
-                <p
-                  style={{
-                    color: "rgba(255,255,255,0.55)",
-                    fontSize: "0.8rem",
-                    fontWeight: 700,
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    marginBottom: 10,
-                  }}
-                >
-                  Stay Updated
-                </p>
-                <div className="vx-newsletter-row">
-                  <input
-                    className="vx-input"
-                    type="email"
-                    placeholder="your@email.com"
-                  />
-                  <button className="vx-sub-btn">Subscribe</button>
-                </div>
               </div>
             </motion.div>
 

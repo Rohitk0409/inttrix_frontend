@@ -25,6 +25,7 @@ const deliverables = [
   { icon: "🎥", label: "Product Video & Reels" },
   { icon: "🛒", label: "E-commerce Management" },
   { icon: "📈", label: "Digital Ad Campaigns" },
+  { icon: "⚙️", label: "Automation & CRM Solutions" },
 ];
 
 const values = [

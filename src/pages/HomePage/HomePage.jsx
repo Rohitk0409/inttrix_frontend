@@ -6,6 +6,7 @@ import {
   Palette,
   Play,
   Rocket,
+  Settings,
   Shield,
   ShoppingCart,
   Star,
@@ -168,6 +169,12 @@ function HomePage() {
       title: "E-commerce",
       desc: "End-to-end store management for maximum sales.",
       accent: "#6366F1",
+    },
+    {
+      icon: Settings,
+      title: "Automation & CRM",
+      desc: "Smart systems for lead tracking, WhatsApp automation, and sales pipeline management.",
+      accent: "#14B8A6",
     },
   ];
 

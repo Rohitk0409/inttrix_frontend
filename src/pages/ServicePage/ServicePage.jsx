@@ -102,12 +102,25 @@ const services = [
       "Sponsored Ads & Catalog Management",
     ],
   },
+  {
+    icon: "⚙️",
+    number: "07",
+    title: "Automation & CRM Solutions",
+    short: "CRM",
+    items: [
+      "Custom CRM Development (e.g., Patient Management System)",
+      "WhatsApp Automation (Auto Replies & Follow-ups)",
+      "Email Automation (Drip Campaigns)",
+      "Lead Tracking Dashboards",
+      "Sales Pipeline Setup",
+    ],
+  },
 ];
 
 const badges = [
   "50+ Projects Delivered",
   "98% Client Retention",
-  "6 Core Services",
+  "7 Core Services",
 ];
 
 export default function ServicePage() {
