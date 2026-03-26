@@ -1,32 +1,15 @@
-// ─── SEO OPTIMIZATION NOTES ───────────────────────────────────────────────
-// Add this at the top of your App.jsx or index.jsx:
-//   import { HelmetProvider } from 'react-helmet-async';
-//   Wrap your <App /> with <HelmetProvider>
-//
-// Install: npm install react-helmet-async
-// ──────────────────────────────────────────────────────────────────────────
-
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle,
   ChevronRight,
-  Code,
-  Palette,
-  Play,
   Rocket,
-  Settings,
-  Shield,
-  ShoppingCart,
   Star,
-  TrendingUp,
-  Users,
-  Video,
-  Zap,
 } from "lucide-react";
 import { useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
+import { servicesData } from "../../Data/servicesData";
 
 /* ─── Design Tokens ─── */
 const C = {
@@ -133,23 +116,17 @@ function SectionLabel({ children }) {
 }
 
 /* ─── Trust Badges ─── */
-// NEW: Small inline trust signals placed under hero subheading
 function TrustBadges() {
   const items = [
     "Trusted by 30+ Clients",
-    "Based in Noida, Delhi NCR",
-    "5-Star Rated Agency",
+    "Based in Delhi NCR",
+    // "5-Star Rated Agency",
   ];
   return (
     <motion.div
       variants={fadeUp}
       custom={2.5}
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 10,
-        marginBottom: 32,
-      }}
+      style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 32 }}
     >
       {items.map((item, i) => (
         <span
@@ -186,58 +163,11 @@ function HomePage() {
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 80]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.4]);
 
-  // ── SEO-OPTIMISED SERVICE DESCRIPTIONS ──
-  // Each description now includes a benefit-first statement + keyword phrase
-  const services = [
-    {
-      icon: Code,
-      title: "Web Development",
-      // SEO: keywords — custom web development Noida, React website India
-      desc: "Custom websites and web applications built with React, Next.js, and modern frameworks. Get a fast, SEO-ready digital platform that converts visitors into customers.",
-      accent: "#3B82F6",
-    },
-    {
-      icon: Palette,
-      title: "Creative Design",
-      // SEO: UI/UX design agency Delhi NCR, brand identity design
-      desc: "UI/UX design and brand identity that sets you apart. We craft visuals aligned with your brand story — from logo to full design systems.",
-      accent: "#A855F7",
-    },
-    {
-      icon: TrendingUp,
-      title: "Digital Advertising",
-      // SEO: Google Ads, Meta Ads, performance marketing India
-      desc: "Data-driven Google Ads, Meta Ads, and performance marketing campaigns designed to maximise ROI and lower your cost per acquisition.",
-      accent: "#10B981",
-    },
-    {
-      icon: Users,
-      title: "Social Media Management",
-      // SEO: social media marketing agency Noida
-      desc: "Full-service social media management — content creation, community building, and growth strategies that turn followers into loyal brand advocates.",
-      accent: "#F59E0B",
-    },
-    {
-      icon: Video,
-      title: "Video & Reels Production",
-      // SEO: video marketing, Instagram Reels production India
-      desc: "Short-form video content and Instagram Reels that stop the scroll. Our creative team produces thumb-stopping content that boosts organic reach.",
-      accent: "#EC4899",
-    },
-    {
-      icon: ShoppingCart,
-      title: "E-commerce Solutions",
-      // SEO: Shopify, WooCommerce development India
-      desc: "End-to-end e-commerce store setup, management, and optimisation on Shopify, WooCommerce, and custom platforms — built to scale your online sales.",
-      accent: "#6366F1",
-    },
-    {
-      icon: Settings,
-      title: "Automation & CRM",
-      // SEO: CRM automation, WhatsApp business automation, sales pipeline India
-      desc: "Custom CRM setups, WhatsApp Business automation, and sales pipeline management that reduce manual work and help your team close more deals, faster.",
-      accent: "#14B8A6",
-    },
+  const stats = [
+    { value: "50+", label: "Projects Delivered" },
+    { value: "30+", label: "Happy Clients" },
+    { value: "98%", label: "Satisfaction Rate" },
+    { value: "24/7", label: "Support" },
   ];
 
   const steps = [
@@ -257,34 +187,18 @@ function HomePage() {
       n: "03",
       label: "Execution",
       desc: "Our expert team builds, launches, and iterates with precision and creativity — on time, every time.",
-      icon: Zap,
+      icon: ArrowRight,
     },
     {
       n: "04",
       label: "Growth",
       desc: "Post-launch, we continuously track, optimise, and scale your digital presence for lasting business results.",
-      icon: Shield,
+      icon: ChevronRight,
     },
-  ];
-
-  const stats = [
-    { value: "50+", label: "Projects Delivered" },
-    { value: "30+", label: "Happy Clients" },
-    { value: "98%", label: "Satisfaction Rate" },
-    { value: "24/7", label: "Support" },
   ];
 
   return (
     <>
-      {/*
-       * ─── REACT HELMET — SEO META TAGS ──────────────────────────────────────
-       * Requires: npm install react-helmet-async
-       * Wrap your root App with <HelmetProvider> from react-helmet-async
-       *
-       * Title formula: Primary Keyword | Brand Name | Location
-       * Meta description: 150–160 chars, includes CTA + location + keywords
-       * ────────────────────────────────────────────────────────────────────────
-       */}
       <Helmet>
         <title>
           Web Development & CRM Automation Company in Noida | Vinttrix Edge
@@ -293,7 +207,6 @@ function HomePage() {
           name="description"
           content="Vinttrix Edge is a leading web development & CRM automation company in Noida, Delhi NCR. We build custom websites, run digital ads, and automate your sales pipeline. Trusted by 30+ clients across India. Get a free consultation today."
         />
-        {/* Open Graph — for WhatsApp/LinkedIn/Facebook link previews */}
         <meta
           property="og:title"
           content="Web Development & CRM Automation Company in Noida | Vinttrix Edge"
@@ -304,7 +217,6 @@ function HomePage() {
         />
         <meta property="og:image" content="/Vinttrix-Edge-3.png" />
         <meta property="og:type" content="website" />
-        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
@@ -314,9 +226,7 @@ function HomePage() {
           name="twitter:description"
           content="Vinttrix Edge builds websites, runs digital campaigns, and automates your business. Based in Noida, serving clients across India."
         />
-        {/* Canonical */}
         <link rel="canonical" href="https://vinttrix-edge.vercel.app/" />
-        {/* Keyword hint for older crawlers */}
         <meta
           name="keywords"
           content="web development company Noida, CRM automation India, digital marketing agency Delhi NCR, custom website development, WhatsApp automation, React development India, Vinttrix Edge"
@@ -332,10 +242,11 @@ function HomePage() {
           overflowX: "hidden",
         }}
       >
-        {/* ── HERO ── */}
+        {/* ══════════════════════════════════════════
+            HERO SECTION — updated copy from screenshot
+        ══════════════════════════════════════════ */}
         <motion.section
           ref={heroRef}
-          // Semantic landmark — important for accessibility + SEO
           aria-label="Hero — Vinttrix Edge Web Development & CRM Automation Company"
           style={{
             y: heroY,
@@ -344,7 +255,7 @@ function HomePage() {
             overflow: "hidden",
           }}
         >
-          {/* Hero background */}
+          {/* Background */}
           <div
             style={{
               position: "absolute",
@@ -394,66 +305,93 @@ function HomePage() {
                 alignItems: "center",
               }}
             >
-              {/* Left */}
+              {/* ── Left Column ── */}
               <motion.div variants={stagger} initial="hidden" animate="visible">
-                {/* ── SECTION LABEL — brand + location ── */}
+                {/* Eyebrow label */}
                 <motion.div variants={fadeUp} custom={0}>
-                  <SectionLabel>Vinttrix Edge · Noida, Delhi NCR</SectionLabel>
+                  <SectionLabel>Vinttrix Edge · Delhi NCR</SectionLabel>
                 </motion.div>
 
                 {/*
-                 * ── H1 — PRIMARY SEO HEADING ──────────────────────────────────
-                 * Rule: ONE <h1> per page.
-                 * Contains main keyword: "Web Development & CRM Automation Company"
-                 * Brand name + location reinforced visually below.
-                 * ──────────────────────────────────────────────────────────────
+                 * H1 — Updated from screenshot:
+                 * Line 1: "From Websites to CRM,"
+                 * Line 2: "Software & Marketing —"
+                 * Line 3: "Everything Your Business Needs to Grow"
                  */}
                 <motion.h1
                   variants={fadeUp}
                   custom={1}
                   style={{
-                    fontSize: "clamp(2.4rem, 5vw, 3.8rem)",
+                    fontSize: "clamp(1.6rem, 3.8vw, 2.8rem)", // 👈 reduced
                     fontWeight: 800,
-                    lineHeight: 1.1,
+                    lineHeight: 1.2, // 👈 slightly increased for readability
                     color: "#fff",
-                    margin: "0 0 20px",
+                    margin: "0 0 16px",
+                    letterSpacing: "-0.01em",
                   }}
                 >
-                  {/* Visible conversion copy — keyword embedded naturally */}
-                  Web Development
+                  From Websites to <span style={{ color: C.coral }}>CRM,</span>
                   <br />
-                  &amp; <span style={{ color: C.coral }}>CRM Automation</span>
+                  Software &amp; Marketing —
                   <br />
-                  Company 🚀
+                  <span
+                    style={{
+                      background: `linear-gradient(135deg, #fff 30%, ${C.coralLight} 100%)`,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    Everything Your Business
+                    <br />
+                    Needs to Grow
+                  </span>
                 </motion.h1>
-
                 {/*
-                 * ── HERO SUBHEADING — benefit-first, keyword-rich ──
-                 * Includes: brand name, location, core services, CTA signal
-                 * ~50 words — scannable and persuasive
+                 * Sub-heading — from screenshot:
+                 * "Helping businesses grow with the right mix of
+                 *  technology, software, and marketing"
                  */}
                 <motion.p
                   variants={fadeUp}
                   custom={2}
                   style={{
-                    fontSize: "1.1rem",
-                    color: "rgba(255,255,255,0.7)",
+                    fontSize: "1.15rem",
+                    fontWeight: 600,
+                    color: "rgba(255,255,255,0.88)",
+                    lineHeight: 1.65,
+                    maxWidth: 520,
+                    marginBottom: 12,
+                  }}
+                >
+                  Helping businesses grow with the right mix of technology,
+                  software, and marketing.
+                </motion.p>
+
+                {/* Supporting sub-copy */}
+                {/* <motion.p
+                  variants={fadeUp}
+                  custom={2.2}
+                  style={{
+                    fontSize: "0.97rem",
+                    color: "rgba(255,255,255,0.55)",
                     lineHeight: 1.8,
-                    maxWidth: 500,
+                    maxWidth: 490,
                     marginBottom: 20,
                   }}
                 >
-                  <strong style={{ color: "rgba(255,255,255,0.9)" }}>
+                  <strong style={{ color: "rgba(255,255,255,0.75)" }}>
                     Vinttrix Edge
                   </strong>{" "}
-                  helps businesses in Noida, Delhi NCR, and across India grow
-                  faster with custom websites, data-driven digital marketing,
-                  and intelligent CRM automation — all under one roof.
-                </motion.p>
+                  — your end-to-end digital partner based in Noida, Delhi NCR,
+                  serving brands across India with custom websites, CRM systems,
+                  and performance-driven marketing.
+                </motion.p> */}
 
-                {/* ── TRUST BADGES ── NEW: social proof inline */}
+                {/* Trust Badges */}
                 <TrustBadges />
 
+                {/* CTA Buttons — from screenshot: "Get Free Consultation" + "View Our Work" */}
                 <motion.div
                   variants={fadeUp}
                   custom={3}
@@ -464,10 +402,6 @@ function HomePage() {
                     marginBottom: 52,
                   }}
                 >
-                  {/*
-                   * CTA #1 — Primary: action-oriented, benefit-led
-                   * "Free Consultation" outperforms generic "Get Started"
-                   */}
                   <motion.button
                     whileHover={{
                       scale: 1.04,
@@ -494,15 +428,14 @@ function HomePage() {
                     Get Free Consultation <ArrowRight size={18} />
                   </motion.button>
 
-                  {/* CTA #2 — Secondary: explore intent */}
                   <motion.button
                     whileHover={{
                       scale: 1.04,
                       background: "rgba(255,255,255,0.12)",
                     }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => navigate("/services")}
-                    aria-label="View all services offered by Vinttrix Edge"
+                    onClick={() => navigate("/projects")}
+                    aria-label="View our work"
                     style={{
                       background: "rgba(255,255,255,0.07)",
                       color: "#fff",
@@ -518,7 +451,7 @@ function HomePage() {
                       backdropFilter: "blur(8px)",
                     }}
                   >
-                    <Play size={16} /> Explore Services
+                    View Our Work <ChevronRight size={16} />
                   </motion.button>
                 </motion.div>
 
@@ -568,7 +501,7 @@ function HomePage() {
                 </motion.div>
               </motion.div>
 
-              {/* Right – Hero image card */}
+              {/* ── Right Column — Hero image ── */}
               <motion.div
                 initial={{ opacity: 0, x: 60 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -596,15 +529,9 @@ function HomePage() {
                       boxShadow: `0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)`,
                     }}
                   >
-                    {/*
-                     * ── ALT TEXT — SEO OPTIMISED ────────────────────────────
-                     * Formula: [what's shown] + [brand] + [location/keyword]
-                     * Avoid: "image", "photo of", "picture of"
-                     * ────────────────────────────────────────────────────────
-                     */}
                     <img
                       src="/Vinttrix-Edge-3.png"
-                      alt="Vinttrix Edge team delivering web development and digital marketing solutions in Noida, Delhi NCR"
+                      alt="Vinttrix Edge team delivering web development and digital marketing solutions in Delhi NCR"
                       style={{
                         width: "100%",
                         display: "block",
@@ -612,7 +539,6 @@ function HomePage() {
                         objectFit: "cover",
                       }}
                     />
-                    {/* Overlay shimmer */}
                     <div
                       style={{
                         position: "absolute",
@@ -676,9 +602,11 @@ function HomePage() {
           </div>
         </motion.section>
 
-        {/* ── SERVICES ── */}
+        {/* ══════════════════════════════════════════
+            SERVICES SECTION — from servicesData
+        ══════════════════════════════════════════ */}
         <section
-          aria-label="Our Services — Web Development, Digital Marketing, CRM Automation"
+          aria-label="Our Services"
           style={{
             padding: "100px 24px",
             background: "#fff",
@@ -686,6 +614,7 @@ function HomePage() {
             overflow: "hidden",
           }}
         >
+          {/* Top accent line */}
           <div
             style={{
               position: "absolute",
@@ -707,6 +636,7 @@ function HomePage() {
           />
 
           <div style={{ margin: "0 auto" }}>
+            {/* Section header */}
             <motion.div
               variants={stagger}
               initial="hidden"
@@ -715,10 +645,6 @@ function HomePage() {
               style={{ textAlign: "center", marginBottom: 64 }}
             >
               <SectionLabel>What We Do</SectionLabel>
-              {/*
-               * H2 — secondary keyword heading
-               * "Digital Agency Noida" + service categories for long-tail SEO
-               */}
               <motion.h2
                 variants={fadeUp}
                 style={{
@@ -729,7 +655,7 @@ function HomePage() {
                 }}
               >
                 Full-Service Digital Agency{" "}
-                <span style={{ color: C.coral }}>in Noida</span>
+                <span style={{ color: C.coral }}>in Delhi NCR </span>
               </motion.h2>
               <motion.p
                 variants={fadeUp}
@@ -743,11 +669,11 @@ function HomePage() {
               >
                 From custom web development and performance marketing to
                 WhatsApp automation and CRM — we provide end-to-end digital
-                solutions that drive measurable business growth for companies
-                across Delhi NCR and India.
+                solutions that drive measurable business growth.
               </motion.p>
             </motion.div>
 
+            {/* Services Grid — from servicesData */}
             <motion.div
               variants={stagger}
               initial="hidden"
@@ -755,109 +681,177 @@ function HomePage() {
               viewport={{ once: true, amount: 0.1 }}
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
                 gap: 24,
               }}
             >
-              {services.map((s, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeUp}
-                  custom={i}
-                  whileHover={{
-                    y: -8,
-                    boxShadow: `0 24px 60px rgba(31,58,99,0.12)`,
-                  }}
-                  style={{
-                    background: "#fafafa",
-                    borderRadius: 24,
-                    padding: "36px 32px",
-                    border: "1px solid #f0f0f0",
-                    cursor: "pointer",
-                    transition: "box-shadow 0.3s",
-                    position: "relative",
-                    overflow: "hidden",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      right: 0,
-                      width: 120,
-                      height: 120,
-                      borderRadius: "0 24px 0 100%",
-                      background: `${s.accent}0d`,
+              {servicesData.map((svc, i) => {
+                const accentColors = [
+                  "#3B82F6",
+                  "#10B981",
+                  "#A855F7",
+                  "#F59E0B",
+                ];
+                const accent = accentColors[i % accentColors.length];
+                return (
+                  <motion.div
+                    key={svc.id}
+                    variants={fadeUp}
+                    custom={i}
+                    whileHover={{
+                      y: -8,
+                      boxShadow: `0 24px 60px rgba(31,58,99,0.12)`,
                     }}
-                  />
-                  <div
                     style={{
-                      width: 52,
-                      height: 52,
-                      borderRadius: 14,
-                      background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: 22,
-                    }}
-                  >
-                    <s.icon size={24} color="#fff" />
-                  </div>
-                  {/* H3 for service cards — good for crawlability */}
-                  <h3
-                    style={{
-                      fontSize: "1.2rem",
-                      fontWeight: 700,
-                      color: C.navy,
-                      marginBottom: 10,
-                    }}
-                  >
-                    {s.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "0.95rem",
-                      color: "#64748b",
-                      lineHeight: 1.7,
-                      marginBottom: 20,
-                    }}
-                  >
-                    {s.desc}
-                  </p>
-                  {/*
-                   * Internal link — anchor tags crawled by Google.
-                   * Using <button> here is fine but consider converting
-                   * the card to an <a href="/services#service-name"> for
-                   * maximum crawlability on key service pages.
-                   */}
-                  <button
-                    onClick={() => navigate("/services")}
-                    aria-label={`Learn more about ${s.title} at Vinttrix Edge`}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      color: C.coral,
-                      fontWeight: 700,
-                      fontSize: "0.9rem",
+                      background: "#fafafa",
+                      borderRadius: 24,
+                      padding: "36px 32px",
+                      border: "1px solid #f0f0f0",
                       cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 6,
-                      padding: 0,
+                      transition: "box-shadow 0.3s",
+                      position: "relative",
+                      overflow: "hidden",
                     }}
                   >
-                    Learn More <ChevronRight size={15} />
-                  </button>
-                </motion.div>
-              ))}
+                    {/* Corner accent */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        width: 120,
+                        height: 120,
+                        borderRadius: "0 24px 0 100%",
+                        background: `${accent}0d`,
+                      }}
+                    />
+
+                    {/* Icon box */}
+                    <div
+                      style={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: 16,
+                        background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`,
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginBottom: 20,
+                        fontSize: "1.6rem",
+                      }}
+                    >
+                      {svc.icon}
+                    </div>
+
+                    {/* Title */}
+                    <h3
+                      style={{
+                        fontSize: "1.15rem",
+                        fontWeight: 700,
+                        color: C.navy,
+                        marginBottom: 8,
+                      }}
+                    >
+                      {svc.id?.toUpperCase()}
+                    </h3>
+
+                    {/* Short line */}
+                    <p
+                      style={{
+                        fontSize: "0.88rem",
+                        color: "#94a3b8",
+                        marginBottom: 20,
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      {svc.title}
+                    </p>
+
+                    {/* Mini bullets divider */}
+                    <div
+                      style={{
+                        height: 1,
+                        marginBottom: 16,
+                        background: `linear-gradient(90deg, ${accent}44, transparent)`,
+                      }}
+                    />
+
+                    {/* Mini bullets */}
+                    <ul
+                      style={{
+                        listStyle: "none",
+                        padding: 0,
+                        margin: "0 0 24px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 10,
+                      }}
+                    >
+                      {svc.miniBullets.map((bullet, idx) => (
+                        <li
+                          key={idx}
+                          style={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            gap: 10,
+                          }}
+                        >
+                          <span
+                            style={{
+                              marginTop: 6,
+                              width: 6,
+                              height: 6,
+                              borderRadius: "50%",
+                              background: C.coral,
+                              flexShrink: 0,
+                              display: "inline-block",
+                            }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "0.9rem",
+                              color: "#64748b",
+                              lineHeight: 1.5,
+                            }}
+                          >
+                            {bullet}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* CTA link */}
+                    <button
+                      onClick={() => navigate(`/service/${svc?.id}`)}
+                      aria-label={`${svc.buttonText}`}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: C.coral,
+                        fontWeight: 700,
+                        fontSize: "0.9rem",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                        padding: 0,
+                      }}
+                    >
+                      {svc.buttonText} <ChevronRight size={15} />
+                    </button>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </div>
         </section>
 
-        {/* ── APPROACH ── */}
+        {/* ══════════════════════════════════════════
+            APPROACH SECTION
+        ══════════════════════════════════════════ */}
         <section
-          aria-label="Our Approach — How Vinttrix Edge Delivers Results"
+          aria-label="Our Approach"
           style={{
             padding: "100px 24px",
             background: `linear-gradient(135deg, #f0f4ff 0%, #fff5f3 100%)`,
@@ -875,13 +869,7 @@ function HomePage() {
             animate={false}
           />
 
-          <div
-            style={{
-              margin: "0 auto",
-              position: "relative",
-              zIndex: 2,
-            }}
-          >
+          <div style={{ margin: "0 auto", position: "relative", zIndex: 2 }}>
             <motion.div
               variants={stagger}
               initial="hidden"
@@ -912,8 +900,7 @@ function HomePage() {
                 }}
               >
                 A structured, transparent methodology that eliminates guesswork
-                and consistently delivers results for every client — from
-                startups to established brands.
+                and consistently delivers results for every client.
               </motion.p>
             </motion.div>
 
@@ -944,7 +931,6 @@ function HomePage() {
                     border: "1px solid rgba(255,98,71,0.08)",
                   }}
                 >
-                  {/* Step number watermark */}
                   <div
                     style={{
                       position: "absolute",
@@ -1010,11 +996,10 @@ function HomePage() {
           </div>
         </section>
 
-        {/* ── CTA BANNER ── */}
-        <section
-          aria-label="Call to Action — Start your project with Vinttrix Edge"
-          style={{ padding: "80px 24px" }}
-        >
+        {/* ══════════════════════════════════════════
+            CTA BANNER
+        ══════════════════════════════════════════ */}
+        <section aria-label="Call to Action" style={{ padding: "80px 24px" }}>
           <div style={{ maxWidth: 960, margin: "0 auto" }}>
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -1089,12 +1074,10 @@ function HomePage() {
                   Ready to Grow Your{" "}
                   <span style={{ color: C.coral }}>Business Online?</span>
                 </h2>
-                {/* Benefit-focused, keyword-aware CTA subtext */}
                 <p
                   style={{
                     fontSize: "1.1rem",
                     color: "rgba(255,255,255,0.65)",
-                    marginBottom: 40,
                     maxWidth: 520,
                     margin: "0 auto 40px",
                     lineHeight: 1.7,
@@ -1113,7 +1096,6 @@ function HomePage() {
                     flexWrap: "wrap",
                   }}
                 >
-                  {/* Primary CTA — high-intent, specific */}
                   <motion.button
                     whileHover={{
                       scale: 1.05,
@@ -1140,7 +1122,6 @@ function HomePage() {
                     Book Free Consultation <Rocket size={17} />
                   </motion.button>
 
-                  {/* Secondary CTA */}
                   <motion.button
                     whileHover={{
                       scale: 1.05,
@@ -1169,14 +1150,31 @@ function HomePage() {
           </div>
         </section>
 
-        {/* Responsive overrides via inline style tag */}
+        {/* ── Global styles + responsive overrides ── */}
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap');
           * { box-sizing: border-box; margin: 0; padding: 0; }
           body { font-family: 'DM Sans', sans-serif; }
 
+          /* Responsive: stack hero grid on small screens */
           @media (max-width: 640px) {
             section { padding-left: 16px !important; padding-right: 16px !important; }
+          }
+
+          /* Stats grid: 2 cols on very small screens */
+          @media (max-width: 400px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          }
+
+          /* Services grid: 1 col on small, 2 on medium, 4 on large */
+          @media (max-width: 480px) {
+            .services-grid { grid-template-columns: 1fr !important; }
+          }
+          @media (min-width: 768px) and (max-width: 1100px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          }
+          @media (min-width: 1100px) {
+            .services-grid { grid-template-columns: repeat(4, 1fr) !important; }
           }
         `}</style>
       </div>

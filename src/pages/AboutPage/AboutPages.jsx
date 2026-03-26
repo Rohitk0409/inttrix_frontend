@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-
+import { servicesData } from "../../Data/servicesData";
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -98,9 +98,9 @@ function AboutPage() {
             variants={fadeInUp}
             className="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto"
           >
-            A passionate digital studio helping businesses build, manage, and
-            grow their online presence with clean code, creative design, and
-            smart strategy.
+            We Don’t Just Provide Services — We Build Growth Systems Helping
+            businesses grow with the right mix of technology, software, and
+            marketing
           </motion.p>
         </motion.div>
 
@@ -141,19 +141,19 @@ function AboutPage() {
                   className="italic"
                   style={{ fontFamily: "Georgia, serif", color: "#FF6247" }}
                 >
-                  Partner & Studio
+                  Partner
                 </span>
               </h2>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-4">
-                Vinttrix Edge is a passionate digital services studio helping
-                businesses of all sizes build, manage, and grow their online
-                presence with clean code, creative design, and smart strategy.
+                At Vinttrix Edge, we specialize in creating complete digital
+                ecosystems that help businesses grow faster and operate more
+                efficiently.
               </p>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                We combine technical expertise with creative storytelling to
-                deliver practical, high-impact solutions — from stunning
-                websites and powerful e-commerce systems to scroll-stopping
-                social content and result-driven advertising.
+                From high-performance websites to custom CRM and software
+                solutions, along with result-driven marketing and branding — we
+                ensure every part of your business is aligned to deliver
+                consistent growth.
               </p>
             </motion.div>
 
@@ -163,7 +163,7 @@ function AboutPage() {
                 What We Deliver
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {deliverables.map((item, i) => (
+                {servicesData.map((item, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, x: -16 }}
@@ -177,7 +177,7 @@ function AboutPage() {
                   >
                     <span className="text-xl">{item.icon}</span>
                     <span className="text-sm font-600 text-gray-700 group-hover:text-[#1F3A63] transition-colors font-semibold">
-                      {item.label}
+                      {item.title}
                     </span>
                   </motion.div>
                 ))}

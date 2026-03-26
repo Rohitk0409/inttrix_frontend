@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { servicesData } from "../../Data/servicesData";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 48 },
@@ -29,98 +30,10 @@ const cardAnim = {
   },
 };
 
-const services = [
-  {
-    icon: "🌐",
-    number: "01",
-    title: "Web Development & Software",
-    short: "Web Dev",
-    items: [
-      "Business Website Design",
-      "Web Applications & Custom Software",
-      "Landing Page Development",
-      "Domain, Hosting & Maintenance",
-    ],
-  },
-  {
-    icon: "📱",
-    number: "02",
-    title: "Social Media Management",
-    short: "Social Media",
-    items: [
-      "Page Setup & Ongoing Management",
-      "Content Planning & Calendar",
-      "Posts, Reels & Video Editing",
-      "Brand Content Creation",
-    ],
-  },
-  {
-    icon: "🎨",
-    number: "03",
-    title: "Creative Design",
-    short: "Design",
-    items: [
-      "Social Media Posters & Creatives",
-      "Corporate & Event Designs",
-      "HR & Business Materials",
-      "Brand Identity Systems",
-    ],
-  },
-  {
-    icon: "🎥",
-    number: "04",
-    title: "Product Advertisement & Ads",
-    short: "Video Ads",
-    items: [
-      "Short Product Advertisement Videos",
-      "Promotional Reels for Products",
-      "Motion Graphics & Text Animations",
-      "Social Media Product Showcase",
-    ],
-  },
-  {
-    icon: "📈",
-    number: "05",
-    title: "Digital Advertising",
-    short: "Paid Ads",
-    items: [
-      "Campaign Setup & Audience Targeting",
-      "Ad Creative Design",
-      "Campaign Monitoring & Reporting",
-      "ROI Optimization Strategies",
-    ],
-  },
-  {
-    icon: "🛒",
-    number: "06",
-    title: "E-commerce Onboarding",
-    short: "E-commerce",
-    items: [
-      "Seller Account & Marketplace Setup",
-      "Product Listing & Catalog Design",
-      "Product SEO & Keyword Optimization",
-      "Sponsored Ads & Catalog Management",
-    ],
-  },
-  {
-    icon: "⚙️",
-    number: "07",
-    title: "Automation & CRM Solutions",
-    short: "CRM",
-    items: [
-      "Custom CRM Development (e.g., Patient Management System)",
-      "WhatsApp Automation (Auto Replies & Follow-ups)",
-      "Email Automation (Drip Campaigns)",
-      "Lead Tracking Dashboards",
-      "Sales Pipeline Setup",
-    ],
-  },
-];
-
 const badges = [
   "50+ Projects Delivered",
   "98% Client Retention",
-  "7 Core Services",
+  `${servicesData?.length || 0} Core Services`,
 ];
 
 export default function ServicePage() {
@@ -135,7 +48,6 @@ export default function ServicePage() {
         .font-sora   { font-family: 'Sora', sans-serif; }
         .font-outfit { font-family: 'Outfit', sans-serif; }
 
-        /* Gradient text */
         .text-coral-grad {
           background: linear-gradient(135deg, #FF6247 30%, #c73a24 100%);
           -webkit-background-clip: text;
@@ -143,7 +55,6 @@ export default function ServicePage() {
           background-clip: text;
         }
 
-        /* Card */
         .svc-card {
           transition: transform 0.4s cubic-bezier(0.22,1,0.36,1),
                       box-shadow  0.4s cubic-bezier(0.22,1,0.36,1),
@@ -156,7 +67,6 @@ export default function ServicePage() {
           border-color: rgba(255,98,71,0.30) !important;
         }
 
-        /* Icon box */
         .icon-box {
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -165,18 +75,15 @@ export default function ServicePage() {
           box-shadow: 0 8px 22px rgba(255,98,71,0.22);
         }
 
-        /* Ghost number */
         .ghost-num {
           color: rgba(31,58,99,0.055);
           transition: color 0.35s ease;
         }
         .svc-card:hover .ghost-num { color: rgba(255,98,71,0.13); }
 
-        /* Dot */
         .dot { transition: transform 0.2s ease; }
         .svc-card:hover .dot { transform: scale(1.5); }
 
-        /* Card overlay */
         .card-shine {
           background: linear-gradient(135deg,
             rgba(255,98,71,0.04), rgba(31,58,99,0.04));
@@ -185,13 +92,11 @@ export default function ServicePage() {
         }
         .svc-card:hover .card-shine { opacity: 1; }
 
-        /* Fade divider */
         .fade-hr {
           background: linear-gradient(90deg,
             rgba(255,98,71,0.35), transparent);
         }
 
-        /* Coral CTA */
         .btn-coral {
           background: linear-gradient(135deg, #FF6247, #e04e35);
           box-shadow: 0 8px 24px rgba(255,98,71,0.38);
@@ -204,7 +109,6 @@ export default function ServicePage() {
         }
         .btn-coral:active { transform: translateY(-1px); }
 
-        /* Ghost CTA */
         .btn-ghost {
           background: rgba(255,255,255,0.08);
           border: 1.5px solid rgba(255,255,255,0.16);
@@ -215,7 +119,6 @@ export default function ServicePage() {
           border-color: rgba(255,255,255,0.32);
         }
 
-        /* Short label transition */
         .label-coral  { color: #FF6247; }
         .label-muted  { color: rgba(31,58,99,0.3); }
       `}</style>
@@ -239,7 +142,7 @@ export default function ServicePage() {
       </div>
 
       {/* ── Page wrapper ── */}
-      <div className="relative z-10 font-outfit  mx-auto px-5 sm:px-8 lg:px-14 py-16 md:py-24 lg:py-28">
+      <div className="relative z-10 font-outfit mx-auto px-5 sm:px-8 lg:px-14 py-16 md:py-24 lg:py-28">
         {/* ────────── HEADER ────────── */}
         <motion.div
           initial="hidden"
@@ -251,8 +154,7 @@ export default function ServicePage() {
           <motion.div variants={fadeInUp} className="flex justify-center mb-6">
             <span
               className="inline-flex items-center gap-2 px-5 py-2 rounded-full
-                         text-xs font-semibold uppercase tracking-widest
-                         border"
+                         text-xs font-semibold uppercase tracking-widest border"
               style={{
                 background: "rgba(255,98,71,0.09)",
                 color: "#FF6247",
@@ -324,9 +226,9 @@ export default function ServicePage() {
           viewport={{ once: true, amount: 0.07 }}
           variants={stagger}
         >
-          {services.map((svc, i) => (
+          {servicesData.map((svc, i) => (
             <motion.div
-              key={i}
+              key={svc.id}
               variants={cardAnim}
               className="svc-card relative bg-white rounded-3xl p-7 md:p-8
                          border overflow-hidden cursor-default"
@@ -344,7 +246,7 @@ export default function ServicePage() {
                            select-none pointer-events-none"
                 style={{ letterSpacing: "-0.02em" }}
               >
-                {svc.number}
+                {String(i + 1).padStart(2, "0")}
               </span>
 
               {/* Icon + Title */}
@@ -364,37 +266,42 @@ export default function ServicePage() {
                   className="font-sora font-bold text-base md:text-lg leading-snug"
                   style={{ color: "#1F3A63", letterSpacing: "-0.01em" }}
                 >
-                  {svc.title}
+                  {svc.id?.toLocaleUpperCase()}
                 </h3>
               </div>
+
+              {/* Short line / tagline */}
+              <p className="relative z-10 text-sm text-gray-400 font-light mb-4 leading-relaxed">
+                {svc.title}
+              </p>
 
               {/* Fade divider */}
               <div className="fade-hr relative z-10 h-px mb-5" />
 
-              {/* Items */}
+              {/* Mini Bullets — from miniBullets array */}
               <ul className="relative z-10 space-y-3">
-                {svc.items.map((item, idx) => (
+                {svc.miniBullets.map((bullet, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <span
                       className="dot mt-2 w-1.5 h-1.5 rounded-full flex-shrink-0"
                       style={{ background: "#FF6247" }}
                     />
                     <span className="text-sm md:text-base text-gray-400 leading-relaxed font-normal">
-                      {item}
+                      {bullet}
                     </span>
                   </li>
                 ))}
               </ul>
 
-              {/* Bottom label */}
-              <div className="relative z-10 mt-6">
+              {/* Bottom CTA label */}
+              <Link to={`/service/${svc?.id}`} className="relative z-10 mt-6">
                 <span
                   className={`text-xs font-bold uppercase tracking-widest
                     ${hovered === i ? "label-coral" : "label-muted"}`}
                 >
-                  {svc.short} →
+                  {svc.buttonText} →
                 </span>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>
@@ -442,18 +349,14 @@ export default function ServicePage() {
                 <button
                   className="btn-coral text-white font-bold px-8 py-4
                              rounded-2xl text-base md:text-lg w-full sm:w-auto"
-                  onClick={() => {
-                    navigate("/contact");
-                  }}
+                  onClick={() => navigate("/contact")}
                 >
                   Let's Discuss Your Project →
                 </button>
                 <button
                   className="btn-ghost text-white/80 font-semibold px-8 py-4
                              rounded-2xl text-base md:text-lg w-full sm:w-auto"
-                  onClick={() => {
-                    navigate("/home");
-                  }}
+                  onClick={() => navigate("/home")}
                 >
                   View Our Portfolio
                 </button>

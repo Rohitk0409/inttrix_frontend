@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
+import ServicesDetails from "../components/ServicesDetails";
 import AboutPage from "../pages/AboutPage/AboutPages";
 import ContactPage from "../pages/ContactPage/ContactPage";
 import HomePage from "../pages/HomePage/HomePage";
@@ -14,6 +15,10 @@ function AppRoute() {
       <Route path="/about" element={<AboutPage />} />
 
       <Route path="/services" element={<ServicePage />} />
+
+      <Route path="/service/:id" element={<ServicesDetails />} />
+
+      <Route path="/projects" element={<Projects />} />
 
       <Route path="/projects" element={<Projects />} />
 

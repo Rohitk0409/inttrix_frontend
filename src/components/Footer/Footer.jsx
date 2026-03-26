@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 
 const NAVY = "#1F3A63";
 const CORAL = "#FF6247";
-
 const socialLinks = [
   {
     name: "Instagram",
@@ -80,13 +79,10 @@ const socialLinks = [
 
 const footerLinks = {
   Services: [
-    "Web Development",
-    "Social Media Management",
-    "Creative Design",
-    "Video Production",
-    "Digital Advertising",
-    "E-commerce Solutions",
-    "Automation & CRM Solutions",
+    "Build Your Digital Foundation",
+    "Generate Leads & Sales",
+    "Create a Strong Brand Presence",
+    "Launch, Manage & Grow Your Online Store",
   ],
   Company: ["About Us", "Our Work", "Pricing", "Contact Us"],
   Support: ["WhatsApp Us", "Email Support", "Book a Call", "FAQ"],
